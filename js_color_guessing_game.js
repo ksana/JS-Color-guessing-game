@@ -1,46 +1,48 @@
 var target;            
-var guess_input_text;   
-var guess_input;      
+var guess_input_text;     
 var finished = false;   
 var guesses = 0;
+var colors = ["aqua", "black", "cyan", "red", "white", "purple" , "green", "gray", "ivory", "khaki"];
 
 function do_game() {
-    var colors=["aqua", "black", "cyan", "red", "white", "purple" ];
-    var random_number = Math.random() * colors.length;
+    
+    var random_number = Math.random() * (colors.length-1);
     var random_number_integer = Math.floor(random_number);
     target = colors[random_number_integer];
-    console.log(target);
+    //document.getElementById("demo").innerHTML = target;
 
     while (!finished) {
-        guess_input_text = prompt("I am thinking of a color \n\n"+
+        guess_input_text = prompt("I am thinking of one of these colors: \n\n"+
                                   colors+
-                                  "\n\nWhat is the color?");
-       // guess_input = parseInt(guess_input_text);
-        guesses += 1;   
+                                  "\n\n What color I am thinking of?");
+        guesses += 1;  
         finished = check_guess();
     }
 }
 
 function check_guess() {
-    if (isNaN(guess_input)) {
-        alert("You have not entered a color.\n\n" +
-              "Please enter one of these colors: "  + colors);
+    
+    if ((guess_input_text < "a") || (guess_input > "z")) {
+        alert("Sorry, I dont recognize your color");
         return false;
     }
-    if ((guess_input < a) || (guess_input > z)) {
-        alert("Please enter an integer number in the range 1 to 100.");
+
+    if (guess_input_text > target) {
+        alert("Your color is alphabetically higher than mine");
         return false;
     }
-    if (guess_input > target) {
-        alert("Your number is too large!");
+
+    if (guess_input_text < target) {
+        alert("Your color is alphabetically lower than mine!");
         return false;
     }
-    if (guess_input < target) {
-        alert("Your number is too small!");
-        return false;
-    }
-    alert("You got it! The number was " + target + 
+
+    myBody=document.getElementsByTagName("body")[0];
+    myBody.style.background=target;
+
+    alert("You got it! The color was " + target + 
           ".\n\nIt took you " + guesses + 
           " guesses to get the number!");
+    
     return true;   
 }
